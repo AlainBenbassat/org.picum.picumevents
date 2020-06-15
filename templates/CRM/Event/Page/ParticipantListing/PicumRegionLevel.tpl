@@ -1,0 +1,1 @@
+{include file="CRM/Event/Page/ParticipantListing/PicumBase.tpl" location="top"}
