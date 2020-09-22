@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<menu>
+  <item>
+    <path>civicrm/picumallevents</path>
+    <page_callback>CRM_Picumevents_Page_PicumAllEvents</page_callback>
+    <title>PicumAllEvents</title>
+    <access_arguments>access CiviCRM</access_arguments>
+  </item>
+</menu>
