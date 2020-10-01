@@ -5,15 +5,39 @@ class CRM_Picumevents_Page_PicumAllEvents extends CRM_Core_Page {
 
   public function run() {
     $year = CRM_Utils_Request::retrieveValue('year', 'Integer', date('Y'));
+    $sort = CRM_Utils_Request::retrieveValue('sort', 'Integer', 3);
+    $newsort = CRM_Utils_Request::retrieveValue('newsort', 'Integer', 0);
+    $sortorder = CRM_Utils_Request::retrieveValue('sortorder', 'Integer', 0);
+
     CRM_Utils_System::setTitle("PICUM Events - $year");
 
-    $events = $this->getAllEvents($year);
+    $invertedSortorder = ($sortorder == 0) ? 1 : 0;
+    $currentURL = CRM_Utils_System::url('civicrm/picumallevents', "reset=1&year=$year&sort=$sort&sortorder=$invertedSortorder");
+    $this->assign('currentURL', $currentURL);
+
+    // see how we have to sort the result
+    if ($sort == $newsort) {
+      if ($sortorder == 0) {
+        $sortorder = 'asc';
+      }
+      else {
+        $sortorder = 'desc';
+      }
+    }
+    else {
+      $sortorder = 'asc';
+    }
+    if ($newsort > 0) {
+      $sort = $newsort;
+    }
+
+    $events = $this->getAllEvents($year, $sort, $sortorder);
     $this->assign('events', $events);
 
     parent::run();
   }
 
-  private function getAllEvents($year) {
+  private function getAllEvents($year, $sort, $sortorder) {
     $sql = "
       select
         e.id,
@@ -56,7 +80,7 @@ class CRM_Picumevents_Page_PicumAllEvents extends CRM_Core_Page {
         ed.output_number_98,
         meeting_place.label              
       order by
-        e.start_date    
+        $sort $sortorder    
     ";
 
     $dao = CRM_Core_DAO::executeQuery($sql);

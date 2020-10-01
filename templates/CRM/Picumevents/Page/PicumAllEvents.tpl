@@ -2,13 +2,13 @@
 <table class="report-layout display">
     <thead>
     <tr>
-        <th>Event Type</th>
-        <th>Date</th>
-        <th>Event</th>
-        <th>Output Number</th>
-        <th>Meeting Place</th>
-        <th>Registered/Attended</th>
-        <th>Cancelled/No-Show</th>
+        <th><a href="{$currentURL}&newsort=2">Event Type</a></th>
+        <th><a href="{$currentURL}&newsort=3">Date</a></th>
+        <th><a href="{$currentURL}&newsort=4">Event</a></th>
+        <th><a href="{$currentURL}&newsort=5">Output Number</a></th>
+        <th><a href="{$currentURL}&newsort=6">Meeting Place</a></th>
+        <th><a href="{$currentURL}&newsort=7">Registered/Attended</a></th>
+        <th><a href="{$currentURL}&newsort=8">Cancelled/No-Show</a></th>
     </tr>
     </thead>
     <tbody>
