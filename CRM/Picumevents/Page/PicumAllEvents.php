@@ -31,7 +31,7 @@ class CRM_Picumevents_Page_PicumAllEvents extends CRM_Core_Page {
       left outer join
         civicrm_option_value event_type on e.event_type_id = event_type.value and event_type.option_group_id = 15
       left outer join
-        civicrm_option_value meeting_place on ed.meeting_place_110 = meeting_place.value and event_type.option_group_id = 132
+        civicrm_option_value meeting_place on ed.meeting_place_110 = meeting_place.value and meeting_place.option_group_id = 132
       left outer join
         civicrm_participant p_pos on p_pos.event_id = e.id and p_pos.status_id in (1, 2)
       left outer join
