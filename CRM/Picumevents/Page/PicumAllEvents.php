@@ -4,19 +4,19 @@ use CRM_Picumevents_ExtensionUtil as E;
 class CRM_Picumevents_Page_PicumAllEvents extends CRM_Core_Page {
 
   public function run() {
-    $year = CRM_Utils_Request::retrieveValue('year', 'Integer', date('Y'));
-    $sort = CRM_Utils_Request::retrieveValue('sort', 'Integer', 3);
-    $newsort = CRM_Utils_Request::retrieveValue('newsort', 'Integer', 0);
-    $sortorder = CRM_Utils_Request::retrieveValue('sortorder', 'Integer', 0);
+    $year = CRM_Utils_Request::retrieveValue('year', 'Integer', date('Y'), FALSE, 'GET');
+    $previoussort = CRM_Utils_Request::retrieveValue('previoussort', 'Integer', 3, FALSE, 'GET');
+    $newsort = CRM_Utils_Request::retrieveValue('newsort', 'Integer', $previoussort, FALSE, 'GET');
+    $sortorder = CRM_Utils_Request::retrieveValue('sortorder', 'Integer', 1, FALSE, 'GET'); // 0 = asc, 1 = desc
 
     CRM_Utils_System::setTitle("PICUM Events - $year");
 
     $invertedSortorder = ($sortorder == 0) ? 1 : 0;
-    $currentURL = CRM_Utils_System::url('civicrm/picumallevents', "reset=1&year=$year&sort=$sort&sortorder=$invertedSortorder");
+    $currentURL = CRM_Utils_System::url('civicrm/picumallevents', "reset=1&year=$year&previoussort=$newsort&sortorder=$invertedSortorder");
     $this->assign('currentURL', $currentURL);
 
-    // see how we have to sort the result
-    if ($sort == $newsort) {
+    if ($newsort == $previoussort) {
+      // invert the sort order
       if ($sortorder == 0) {
         $sortorder = 'asc';
       }
@@ -27,11 +27,10 @@ class CRM_Picumevents_Page_PicumAllEvents extends CRM_Core_Page {
     else {
       $sortorder = 'asc';
     }
-    if ($newsort > 0) {
-      $sort = $newsort;
-    }
 
-    $events = $this->getAllEvents($year, $sort, $sortorder);
+    CRM_Core_Session::setStatus($newsort . ' ' . $sortorder);
+
+    $events = $this->getAllEvents($year, $newsort, $sortorder);
     $this->assign('events', $events);
 
     parent::run();
