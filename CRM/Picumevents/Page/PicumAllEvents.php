@@ -28,8 +28,6 @@ class CRM_Picumevents_Page_PicumAllEvents extends CRM_Core_Page {
       $sortorder = 'asc';
     }
 
-    CRM_Core_Session::setStatus($newsort . ' ' . $sortorder);
-
     $events = $this->getAllEvents($year, $newsort, $sortorder);
     $this->assign('events', $events);
 
